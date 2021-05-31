@@ -1,0 +1,15 @@
+{
+  "name": "@bits.ts/all",
+  "version": "0.3.0",
+  "description": "kitchen sink",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "scripts": {
+    "clean": "rm -rf build",
+    "build": "tsc && cp package.json build/.",
+    "prepublishOnly": "npm run clean && npm run build",
+    "test": "exit 0"
+  },
+  "author": "Leon Stark <bitbenderalpha+npm@gmail.com> (https://www.twitch.tv/bitbenderalpha)",
+  "license": "ISC"
+}
