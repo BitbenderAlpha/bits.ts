@@ -10,5 +10,8 @@
     "test": "exit 0"
   },
   "author": "Leon Stark <bitbenderalpha+npm@gmail.com> (https://www.twitch.tv/bitbenderalpha)",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "@types/node": "^15.6.1"
+  }
 }
