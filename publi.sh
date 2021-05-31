@@ -1,3 +1,3 @@
 #! /bin/bash -
 
-npm version minor && npm run clean && npm run build && cd build && npm publish
+npm version minor && npm run build && cd build && npm publish
