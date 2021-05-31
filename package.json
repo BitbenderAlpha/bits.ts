@@ -1,12 +1,12 @@
 {
   "name": "@bits.ts/all",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "kitchen sink",
   "main": "index.js",
   "types": "index.d.ts",
   "scripts": {
-	"generate-index": "find src -type f -name '*.ts' | grep -v index.ts | sed \"s/^src/export * from './\" | sed \"s/\\.ts/';/\" > src/index.ts",
-	"build": "rm -rf build && npm run generate-index && tsc && cp package.json build/.",
+    "generate-index": "find src -type f -name '*.ts' | grep -v index.ts | sed \"s/^src/export * from './\" | sed \"s/\\.ts/';/\" > src/index.ts",
+    "build": "rm -rf build && npm run generate-index && tsc && cp package.json build/.",
     "test": "exit 0"
   },
   "author": "Leon Stark <bitbenderalpha+npm@gmail.com> (https://www.twitch.tv/bitbenderalpha)",
