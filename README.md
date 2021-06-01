@@ -1,0 +1,2 @@
+# YAGNI Disclaimer
+In order for me to ever get anything done ever, I am taking an aggressive "Ya Ain't Gonna Need It" approach to which features/components I add to this repo.  It only contains the components I have needed to build for my use cases, so don't be shocked if it lacks something you can't live without -- I just haven't needed it! (yet)
