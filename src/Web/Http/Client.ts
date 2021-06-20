@@ -25,7 +25,8 @@ export class WebHttpClient implements HttpClientInterface {
 
 		const headers =  new Headers();
 		for (const header of request.headers) {
-			headers.set(header.value, header.value);
+			// TODO: handle bad keys
+			headers.set(header.key, header.value);
 		}
 
 		const body = request.method === 'GET' ? undefined : request.body;
