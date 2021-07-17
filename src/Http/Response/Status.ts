@@ -1,3 +1,6 @@
+import { Fault } from "../../Fault/Fault";
+import { Result } from "../../Result/Result";
+
 export class HttpResponseStatus {
 
 	private constructor(
@@ -69,7 +72,7 @@ export class HttpResponseStatus {
 	public static NotExtended = new HttpResponseStatus(510, 'Not Extended');
 	public static NetworkAuthenticationRequired = new HttpResponseStatus(511, 'Network Authentication Required');
 	
-	public static FromCodeNumber(unvalidatedStatusCode: number): HttpResponseStatus | null {
+	public static FromCodeNumber(unvalidatedStatusCode: number): Result<HttpResponseStatus, Fault> {
 
 		const {
 			Ok,
@@ -100,7 +103,7 @@ export class HttpResponseStatus {
 
 		for (const status of topStatuses) {
 			if (status.code === unvalidatedStatusCode) {
-				return status;
+				return Result.Success(status);
 			}
 		}
 
@@ -109,11 +112,36 @@ export class HttpResponseStatus {
 			if (maybeStatus instanceof HttpResponseStatus) {
 				const status = maybeStatus;
 				if (status.code === unvalidatedStatusCode) {
-					return status;
+					return Result.Success(status);
 				}
 			}
 		}
 	
-		return null; // TODO: Use Result monad once it's developed
+		// TODO -- split up unknown vs invalid?
+		return Result.Failure(
+			Fault.Root('Unknown or invalid http status code', {
+				statusCode: String(unvalidatedStatusCode)
+			})
+		);
+	}
+
+	public get isInformation(): boolean {
+		return String(this.code)[0] === '1';
+	}
+
+	public get isSuccess(): boolean {
+		return String(this.code)[0] === '2';
+	}
+
+	public get isRedirect(): boolean {
+		return String(this.code)[0] === '3';
+	}
+
+	public get isBadRequest(): boolean {
+		return String(this.code)[0] === '4';
+	}
+
+	public get isServerError(): boolean {
+		return String(this.code)[0] === '5';
 	}
 }

@@ -3,11 +3,11 @@ import { HttpHeaderEntry } from "./Entry";
 export class HttpHeaderCollection implements Iterable<HttpHeaderEntry> {
 
 	private constructor(
-		private readonly internalObject: { [key: string]: string }
+		private readonly internalRecord: Record<string, string>
 	) {}
 
 	public * [Symbol.iterator](): Iterator<HttpHeaderEntry, any, undefined> {
-		for (const [key, value] of Object.entries(this.internalObject)) {
+		for (const [key, value] of Object.entries(this.internalRecord)) {
 			yield new HttpHeaderEntry(key, value);
 		}
 	}
@@ -15,9 +15,13 @@ export class HttpHeaderCollection implements Iterable<HttpHeaderEntry> {
 	public static Empty =
 		new HttpHeaderCollection({})
 
+	public static From(record: Record<string,string>) {
+		return new HttpHeaderCollection({...record});
+	}
+
 	public set(key: string, value: string): HttpHeaderCollection {
 		return new HttpHeaderCollection({
-			...this.internalObject,
+			...this.internalRecord,
 			[key]: value,
 		});
 	}

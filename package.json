@@ -5,13 +5,19 @@
   "main": "index.js",
   "types": "index.d.ts",
   "scripts": {
-    "generate-index": "find src -type f -name '*.ts' | grep -v index.ts | sed \"s/^src/export * from './\" | sed \"s/\\.ts/';/\" > src/index.ts",
+    "generate-index": "find src -type f -name '*.ts' | grep -v index.ts | grep -v test.ts | sed \"s/^src/export * from './\" | sed \"s/\\.ts/';/\" > src/index.ts",
     "build": "rm -rf build && npm run generate-index && tsc && cp package.json build/.",
-    "test": "exit 0"
+    "test": "jest"
   },
   "author": "Leon Stark <bitbenderalpha+npm@gmail.com> (https://www.twitch.tv/bitbenderalpha)",
   "license": "ISC",
   "dependencies": {
     "@types/node": "^15.6.1"
+  },
+  "devDependencies": {
+    "@types/jest": "^26.0.23",
+    "jest": "^27.0.6",
+    "ts-jest": "^27.0.3",
+    "typescript": "^4.3.5"
   }
 }

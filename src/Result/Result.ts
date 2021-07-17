@@ -4,12 +4,25 @@ export class Result<S,F> {
 		private readonly state: [true, S] | [false, F]
 	) {}
 
-	public get isSuccess(): boolean {
+	public get succeeded(): boolean {
 		return this.state[0];
+	}
+
+	public get failed(): boolean {
+		return !this.state[0];
 	}
 
 	public get value(): S|F {
 		return this.state[1];
+	}
+
+
+	public toUnion(): { failed: false, value: S}|{ failed: true, value: F} {
+		return (
+			this.state[0]
+				? { failed: false, value: this.state[1]}
+				: { failed: true, value: this.state[1]}
+		);
 	}
 
 	public static Success<S>(s: S): Result<S, never> {
@@ -36,6 +49,16 @@ export class Result<S,F> {
 		);
 	}
 
+	public test<T>(test: (s:S) => boolean, replacementValue:T): Result<S,T|F> {
+		return (
+			this.state[0]
+				? test(this.state[1])
+					? Result.Success(this.state[1])
+					: Result.Failure(replacementValue)
+				: Result.Failure(this.state[1])
+		);
+	}
+
 	public mapFailure<E>(mapper: (s: F) => E): Result<S,E> {
 		return (
 			this.state[0]
@@ -50,6 +73,31 @@ export class Result<S,F> {
 				? Result.Success(this.state[1])
 				: Result.Failure(e)
 		);
+	}
+
+	public replaceSuccessWith<T>(t:T) {
+		return (
+			this.state[0]
+				? Result.Success(t)
+				: Result.Failure(this.state[1])
+		);
+	}
+
+	public static FromBoolean(success: boolean) {
+		return success ? Result.Success(true) : Result.Failure(false);
+	}
+
+	public toBoolean() {
+		return this.state[0];
+	}
+
+	public trustMe(): S {
+
+		if (this.state[0]) {
+			return this.state[1];
+		}
+		
+		throw new Error(`TRUST VIOLATION! -- ${this.state[1]}`)
 	}
 
 }
