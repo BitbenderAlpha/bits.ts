@@ -1,23 +1,21 @@
-import { NonEmptyArray } from "../../Array/NonEmpty";
+import { NonEmptyArray } from "../../../Array/NonEmpty";
 import { PositiveInteger } from "../../Integer/Positive";
-import { ExclusiveUnitRatio } from "../../Ratio/Unit/Exclusive";
+import { Ratio } from "../../Ratio/Ratio";
 import { RandomDistributionInterface } from "../Distribution/Interface";
 import { DiscreteRandomDistribution } from "../Distribution/Uniform/Discrete";
-import { NativeExlusiveUnitRatioUniformRandomDistribution } from "../Distribution/Uniform/NativeExclusiveUnitRatio";
+import { DefaultRandomSource } from "../Source/Default";
 
 export class RandomCoin {
 	private readonly distribution: DiscreteRandomDistribution<boolean>;
 
 	public constructor(
 		public readonly sideCount: PositiveInteger,
-		exclusiveUnitRatioDistribution:
-			RandomDistributionInterface<ExclusiveUnitRatio>
-				= new NativeExlusiveUnitRatioUniformRandomDistribution()
+		randomSource: RandomDistributionInterface<Ratio> = new DefaultRandomSource(),
 	) {
 		this.distribution =
 			new DiscreteRandomDistribution(
-				NonEmptyArray.FromArray([false, true]).trustMe(),
-				exclusiveUnitRatioDistribution,
+				NonEmptyArray.FromArray([false, true]).orDie(),
+				randomSource,
 			);
 	}
 	

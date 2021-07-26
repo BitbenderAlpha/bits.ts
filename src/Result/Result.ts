@@ -91,13 +91,13 @@ export class Result<S,F> {
 		return this.state[0];
 	}
 
-	public trustMe(): S {
+	public orDie(): S {
+		const result = this.toUnion();
 
-		if (this.state[0]) {
-			return this.state[1];
+		if (result.failed) {
+			throw new Error(`Result#orDie fatal condition reached! Failure value: ${result.value}`)
 		}
-		
-		throw new Error(`TRUST VIOLATION! -- ${this.state[1]}`)
-	}
 
+		return result.value;
+	}
 }

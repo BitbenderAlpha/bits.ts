@@ -1,6 +1,6 @@
 import { Fault } from "../Fault/Fault";
-import { Integer } from "../Integer/Integer";
-import { IntegerRange } from "../Range/Integer";
+import { Integer } from "../Numeric/Integer/Integer";
+import { IntegerRange } from "../Numeric/Range/Integer";
 import { Result } from "../Result/Result";
 
 export class NonEmptyArray<T> implements Iterable<T> {
@@ -12,8 +12,8 @@ export class NonEmptyArray<T> implements Iterable<T> {
 
 	public get range() {
 		return new IntegerRange(
-			Integer.From(0).trustMe(),
-			Integer.From(this.tail.length).trustMe(),
+			Integer.From(0).orDie(),
+			Integer.From(this.tail.length).orDie(),
 		);
 	}
 
@@ -29,13 +29,30 @@ export class NonEmptyArray<T> implements Iterable<T> {
 		);
 	}
 
+	public concat(value: T): NonEmptyArray<T> {
+		return new NonEmptyArray<T>(
+			this.head,
+			this.tail.concat(value),
+		)
+	}
+
+	public shiftLeft(): [T, NonEmptyArray<T> | null] {
+		return [
+			this.head,
+			NonEmptyArray.FromArray(this.tail)
+				.replaceFailureWith(null)
+				.value
+		];
+	}
+
 	public static FromArray<T>(a:T[]) {
 		const [head, ...tail] = a;
-		return (
-			Result.FromBoolean(typeof head !== undefined)
-				.replaceSuccessWith(new NonEmptyArray(head as T, tail))
-				.replaceFailureWith(Fault.Root('NonEmptyArray cannot be empty...'))
-		);
+
+		if (head === void 0) {
+			return Result.Failure(Fault.Root('NonEmptyArray cannot be empty...'));
+		}
+
+		return Result.Success(new NonEmptyArray(head, tail));
 	}
 
 	public * [Symbol.iterator]() {

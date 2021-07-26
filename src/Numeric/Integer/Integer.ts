@@ -1,4 +1,4 @@
-import { Is } from "../Validator/Is";
+import { Is } from "../../Validator/Is";
 
 export class Integer {
 

@@ -1,4 +1,4 @@
-import { AbstractValidator } from "../Validator/Abstract";
+import { AbstractValidator } from "../../Validator/Abstract";
 import { Integer } from "./Integer";
 
 export class IntegerValidator extends AbstractValidator<Integer> {

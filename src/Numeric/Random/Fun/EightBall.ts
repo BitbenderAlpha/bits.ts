@@ -1,8 +1,8 @@
-import { NonEmptyArray } from "../../Array/NonEmpty";
-import { ExclusiveUnitRatio } from "../../Ratio/Unit/Exclusive";
+import { NonEmptyArray } from "../../../Array/NonEmpty";
+import { Ratio } from "../../Ratio/Ratio";
 import { RandomDistributionInterface } from "../Distribution/Interface";
 import { DiscreteRandomDistribution } from "../Distribution/Uniform/Discrete";
-import { NativeExlusiveUnitRatioUniformRandomDistribution } from "../Distribution/Uniform/NativeExclusiveUnitRatio";
+import { DefaultRandomSource } from "../Source/Default";
 
 export class RandomEightBall {
 
@@ -28,17 +28,16 @@ export class RandomEightBall {
 			'My sources say no.',
 			'Outlook not so good.',
 			'Very doubtful.',
-		]).trustMe()
+		])
+		.orDie()
 
 	private readonly distribution: DiscreteRandomDistribution<string>;
 
 	public constructor(
-		exclusiveUnitRatioDistribution:
-			RandomDistributionInterface<ExclusiveUnitRatio>
-				= new NativeExlusiveUnitRatioUniformRandomDistribution()
+		randomSoure: RandomDistributionInterface<Ratio> = new DefaultRandomSource(),
 	) {
 		this.distribution =
-			new DiscreteRandomDistribution(this.responses, exclusiveUnitRatioDistribution);
+			new DiscreteRandomDistribution(this.responses, randomSoure);
 	}
 
 	public shake(): string {

@@ -1,8 +1,8 @@
-import { NonEmptyArray } from "../../../Array/NonEmpty";
-import { ExclusiveUnitRatio } from "../../../Ratio/Unit/Exclusive";
+import { NonEmptyArray } from "../../../../Array/NonEmpty";
+import { Ratio } from "../../../Ratio/Ratio";
+import { DefaultRandomSource } from "../../Source/Default";
 import { RandomDistributionInterface } from "../Interface";
 import { IntegerRangeUniformRandomDistribution } from "./IntegerRange";
-import { NativeExlusiveUnitRatioUniformRandomDistribution } from "./NativeExclusiveUnitRatio";
 
 export class DiscreteRandomDistribution<T> implements RandomDistributionInterface<T> {
 
@@ -10,19 +10,17 @@ export class DiscreteRandomDistribution<T> implements RandomDistributionInterfac
 
 	public constructor(
 		private readonly values: NonEmptyArray<T>,
-		exclusiveUnitRatioDistribution:
-			RandomDistributionInterface<ExclusiveUnitRatio>
-				= new NativeExlusiveUnitRatioUniformRandomDistribution()
+		randomSource: RandomDistributionInterface<Ratio> = new DefaultRandomSource(),
 	) {
 		this.indexDistribution =
 			new IntegerRangeUniformRandomDistribution(
 				this.values.range,
-				exclusiveUnitRatioDistribution,
+				randomSource,
 			);
 	}
 
 	public sample(): T {
-		return this.values.get(this.indexDistribution.sample()).trustMe()
+		return this.values.get(this.indexDistribution.sample()).orDie()
 	}
 
 	public * [Symbol.iterator]() {
