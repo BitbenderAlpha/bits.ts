@@ -1,16 +1,16 @@
 {
   "name": "@bits.ts/all",
-  "version": "0.11.0",
+  "version": "0.12.0",
   "description": "kitchen sink",
   "main": "index.js",
   "types": "index.d.ts",
   "scripts": {
-	"clean": "rm -r build; rm src/index.ts",
+    "clean": "rm -r build; rm src/index.ts",
     "generate-index": "find src -type f -name '*.ts' | grep -v index.ts | grep -v test.ts | sed \"s/^src/export * from './\" | sed \"s/\\.ts/';/\" > src/index.ts",
     "build": "rm -rf build && npm run generate-index && tsc && cp package.json build/.",
     "test": "jest",
-	"check": "npm run build && npm t",
-	"test:watch": "jest --watch --detectOpenHandles"
+    "check": "npm run build && npm t",
+    "test:watch": "jest --watch --detectOpenHandles"
   },
   "author": "Leon Stark <bitbenderalpha+npm@gmail.com> (https://www.twitch.tv/bitbenderalpha)",
   "license": "ISC",
