@@ -1,5 +1,5 @@
 import { HttpClientInterface } from "../../../../Http/Client/Interface";
-import { TwitchHttpAppAccessAuthTokenLoader } from "../../Http/Auth/Token/AppAccess/Loader";
+import { TwitchHttpAppAccessAuthTokenLoader } from "../../Api/Auth/Token/AppAccess/Loader";
 import { TwitchAppAccessAuthToken } from "../Token/AppAccess";
 
 export class TwitchAppAccessAuthenticator {

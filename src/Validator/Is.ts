@@ -3,6 +3,8 @@ import { ExactStringValidator } from "./Exact/String"
 import { FixedNameValidator } from "./FixedName"
 import { ValidatorInterface } from "./Interface"
 import { JsonStringOfValidator } from "./JsonStringOf"
+import { NonEmptyArrayOfValidator } from "./NonEmptyArrayOf"
+import { NullValidator } from "./Null"
 import { ObjectOfValidator } from "./ObjectOf"
 import { RegexMatchArrayOfValidator } from "./Regex/MatchArrayOf"
 import { TypeOfNumberValidator } from "./TypeOf/Number"
@@ -21,4 +23,6 @@ export const Is = {
 	Regex: { Match: { Of<T>(s: { [K in keyof T]: ValidatorInterface<T[K]>}) { return new RegexMatchArrayOfValidator<T>(s) } } },
 	String: new TypeOfStringValidator(),
 	Undefined: new TypeOfUndefinedValidator(),
+	Non: { Empty: { Array: { Of<T>(v: ValidatorInterface<T>) { return new NonEmptyArrayOfValidator(v) } } } },
+	Null: new NullValidator(),
 }

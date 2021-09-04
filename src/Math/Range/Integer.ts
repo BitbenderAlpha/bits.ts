@@ -1,6 +1,6 @@
 import { Integer } from "../Integer/Integer";
 
-export class IntegerRange {
+export class IntegerRange implements Iterable<Integer> {
 	public readonly max: Integer;
 	public readonly min: Integer;
 
@@ -10,6 +10,12 @@ export class IntegerRange {
 	) {
 		this.min = a.lte(b) ? a : b;
 		this.max = a.gte(b) ? a : b;
+	}
+
+	public * [Symbol.iterator](): Iterator<Integer, any, undefined> {
+		for (let i = Number(this.min); i<=Number(this.max); i++) {
+			yield Integer.From(i).orDie();
+		}
 	}
 
 	public contains(i: Integer): boolean {

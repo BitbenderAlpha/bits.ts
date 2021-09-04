@@ -3,20 +3,19 @@ import { HttpClientInterface } from "../../../Http/Client/Interface";
 import { WebHttpClient } from "../../../Platform/Web/Http/Client";
 import { Result } from "../../../Result/Result";
 import { TwitchAuthToken } from "../Auth/Token/Token";
-import { TwitchHttpUsersLoader } from "../Http/Users/Loader";
+import { TwitchApiUsersLoader } from "../Api/Users/Loader";
 import { TwitchUser } from "./User";
-
 
 export class TwitchUserLoader {
 
-	private readonly httpUsersLoader: TwitchHttpUsersLoader;
+	private readonly httpUsersLoader: TwitchApiUsersLoader;
 
 	public constructor(
 		private readonly authToken: TwitchAuthToken,
 		httpClient: HttpClientInterface = new WebHttpClient(window),
 	) {
 		this.httpUsersLoader =
-			new TwitchHttpUsersLoader(
+			new TwitchApiUsersLoader(
 				httpClient
 			);
 	}
@@ -34,7 +33,8 @@ export class TwitchUserLoader {
 					user.id,
 					user.login,
 					user.display_name,
-					user.description
+					user.description,
+					user.profile_image_url,
 				))
 		);
 	}
@@ -53,7 +53,8 @@ export class TwitchUserLoader {
 					user.id,
 					user.login,
 					user.display_name,
-					user.description
+					user.description,
+					user.profile_image_url,
 				))
 		);
 	}

@@ -1,4 +1,4 @@
-import { NonNegativeInteger } from "../Numeric/Integer/NonNegative";
+import { NonNegativeInteger } from "../Math/Integer/NonNegative";
 
 export class TimeDuration {
 

@@ -9,7 +9,7 @@ import { TwitchAuthToken } from "../../Auth/Token/Token";
 import { TwitchHttpFailureResponseError } from "../Error/FailureResponse";
 import { TwitchHttpMalformedResponseBodyError } from "../Error/MalformedResponseBody";
 
-export class TwitchHttpUsersLoader {
+export class TwitchApiUsersLoader {
 
 	private readonly responseBodyValidator =
 		Is.Named('TwitchUsersHttpClient Response Body',

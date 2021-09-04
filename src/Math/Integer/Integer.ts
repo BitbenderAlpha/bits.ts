@@ -1,4 +1,4 @@
-import { Is } from "../../Validator/Is";
+import { Result } from "../../Result/Result";
 
 export class Integer {
 
@@ -36,9 +36,10 @@ export class Integer {
 
 	public static From(value: unknown, name = 'Integer.From input') {
 		return (
-			Is.Number.validate(value, name)
-				.test(Number.isInteger, `${name} was not an integer`)
-				.map( value => new Integer(value) )
+			Result.Success(value)
+				.test( x => typeof x === 'number', `${name} must be a number`)
+				.test(Number.isInteger, `${name} must be an integer`)
+				.map( value => new Integer(value as number) )
 		);
 	}
 

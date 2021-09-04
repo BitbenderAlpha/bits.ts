@@ -4,5 +4,6 @@ export class TwitchUser {
 		public readonly loginName: string,
 		public readonly displayName: string,
 		public readonly description: string,
+		public readonly profilePictureUrl: string,
 	) {}
 }

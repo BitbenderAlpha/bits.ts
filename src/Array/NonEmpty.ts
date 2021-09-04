@@ -1,13 +1,13 @@
 import { Fault } from "../Fault/Fault";
-import { Integer } from "../Numeric/Integer/Integer";
-import { IntegerRange } from "../Numeric/Range/Integer";
+import { Integer } from "../Math/Integer/Integer";
+import { IntegerRange } from "../Math/Range/Integer";
 import { Result } from "../Result/Result";
 
 export class NonEmptyArray<T> implements Iterable<T> {
 
 	public constructor(
 		public readonly head: T,
-		public readonly tail: T[],
+		public readonly tail: T[] = [],
 	) {}
 
 	public get range() {

@@ -33,9 +33,11 @@ export class Channel<M> {
 	}
 	
 	public getPublisher(): ChannelPublisher<M> {
-		return new ChannelPublisher(async (message: M) => {
-			await Promise.all(this.subs.map( f => f(message)));
-		});
+		return new ChannelPublisher((message: M) => 
+			Promise
+				.all(this.subs.map( f => f(message)))
+				.then( () => void 0 ),
+		);
 	}
 
 	public get subscriberCount() {
