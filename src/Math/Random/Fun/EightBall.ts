@@ -1,4 +1,4 @@
-import { NonEmptyArray } from "../../../Array/NonEmpty";
+import { NonEmptyList } from "../../../Collection/List/NonEmpty";
 import { Ratio } from "../../Ratio/Ratio";
 import { RandomDistributionInterface } from "../Distribution/Interface";
 import { DiscreteRandomDistribution } from "../Distribution/Uniform/Discrete";
@@ -7,7 +7,7 @@ import { DefaultRandomSource } from "../Source/Default";
 export class RandomEightBall {
 
 	public readonly responses =
-		NonEmptyArray.FromArray([
+		NonEmptyList.From([
 			'It is Certain.',
 			'It is decidedly so.',
 			'Without a doubt.',

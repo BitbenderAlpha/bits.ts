@@ -10,7 +10,7 @@ const hashParamValidator =
 		Is.Object.Of({
 			token_type: Is.Exact.String('bearer'),
 			access_token: Is.String,
-			scope: Is.Array.Of(new TwitchAuthScopeValidator()),
+			scope: Is.List.Of(new TwitchAuthScopeValidator()),
 			state: Is.String,
 		}),
 	);

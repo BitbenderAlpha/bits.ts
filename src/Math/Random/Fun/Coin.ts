@@ -1,4 +1,4 @@
-import { NonEmptyArray } from "../../../Array/NonEmpty";
+import { NonEmptyList } from "../../../Collection/List/NonEmpty";
 import { PositiveInteger } from "../../Integer/Positive";
 import { Ratio } from "../../Ratio/Ratio";
 import { RandomDistributionInterface } from "../Distribution/Interface";
@@ -14,7 +14,7 @@ export class RandomCoin {
 	) {
 		this.distribution =
 			new DiscreteRandomDistribution(
-				NonEmptyArray.FromArray([false, true]).orDie(),
+				NonEmptyList.From([false, true]).orDie(),
 				randomSource,
 			);
 	}

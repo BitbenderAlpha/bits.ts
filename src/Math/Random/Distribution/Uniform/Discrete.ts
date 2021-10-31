@@ -1,4 +1,4 @@
-import { NonEmptyArray } from "../../../../Array/NonEmpty";
+import { NonEmptyList } from "../../../../Collection/List/NonEmpty";
 import { Ratio } from "../../../Ratio/Ratio";
 import { DefaultRandomSource } from "../../Source/Default";
 import { RandomDistributionInterface } from "../Interface";
@@ -9,12 +9,12 @@ export class DiscreteRandomDistribution<T> implements RandomDistributionInterfac
 	private readonly indexDistribution: IntegerRangeUniformRandomDistribution;
 
 	public constructor(
-		private readonly values: NonEmptyArray<T>,
+		private readonly values: NonEmptyList<T>,
 		randomSource: RandomDistributionInterface<Ratio> = new DefaultRandomSource(),
 	) {
 		this.indexDistribution =
 			new IntegerRangeUniformRandomDistribution(
-				this.values.range,
+				this.values.indexRange,
 				randomSource,
 			);
 	}

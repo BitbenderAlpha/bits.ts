@@ -9,7 +9,7 @@ export class TwitchApiFollowsLoader {
 			'Twitch API User Follows Response Body',
 			Is.Json.String.Of(
 				Is.Object.Of({
-					data: Is.Array.Of(
+					data: Is.List.Of(
 						Is.Object.Of({
 							followed_at: Is.String,
 							from_id: Is.String,

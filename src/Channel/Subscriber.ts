@@ -1,4 +1,4 @@
-import { NonEmptyArray } from "../Array/NonEmpty";
+import { NonEmptyList } from "../Collection/List/NonEmpty";
 
 type QueueEntry<M> = {
 	message: M,
@@ -7,7 +7,7 @@ type QueueEntry<M> = {
 
 type ChannelState<M> =
 	{ name: 'WAIT', send: (m: M) => void } |
-	{ name: 'BUSY', queue: NonEmptyArray<QueueEntry<M>> } |
+	{ name: 'BUSY', queue: NonEmptyList<QueueEntry<M>> } |
 	{ name: 'DEAD'}
 
 export class ChannelSubscriber<M> implements AsyncIterableIterator<M> {
@@ -94,11 +94,11 @@ export class ChannelSubscriber<M> implements AsyncIterableIterator<M> {
 					this.state.send(message);
 					this.state = {
 						name: 'BUSY',
-						queue: NonEmptyArray.FromArray([ entry ]).orDie(),
+						queue: NonEmptyList.From([ entry ]).orDie(),
 					};
 					break;
 				case 'BUSY':
-					this.state.queue = this.state.queue.concat(entry)
+					this.state.queue = this.state.queue.appendElement(entry)
 					break;
 			}
 		});

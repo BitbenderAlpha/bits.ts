@@ -1,9 +1,9 @@
 import { Result } from "..";
-import { NonEmptyArray } from "../Array/NonEmpty";
+import { NonEmptyList } from "../Collection/List/NonEmpty";
 import { AbstractValidator } from "./Abstract";
 import { ValidatorInterface } from "./Interface";
 
-export class NonEmptyArrayOfValidator<T> extends AbstractValidator<NonEmptyArray<T>> {
+export class NonEmptyListOfValidator<T> extends AbstractValidator<NonEmptyList<T>> {
 
 	public constructor(
 		private readonly elementValidator: ValidatorInterface<T>,
@@ -11,7 +11,7 @@ export class NonEmptyArrayOfValidator<T> extends AbstractValidator<NonEmptyArray
 		super();
 	}
 
-	public validate(value: unknown, name: string): Result<NonEmptyArray<T>, string> {
+	public validate(value: unknown, name: string): Result<NonEmptyList<T>, string> {
 
 		if (!Array.isArray(value)) {
 			return Result.Failure(`${name} was not an array`);
@@ -29,14 +29,14 @@ export class NonEmptyArrayOfValidator<T> extends AbstractValidator<NonEmptyArray
 			return Result.Failure(headValidation.value);
 		}
 
-		let output = new NonEmptyArray(headValidation.value);
+		let output = new NonEmptyList(headValidation.value);
 
 		for (let i = 0; i < tail.length; i++) {
 			const validation = this.elementValidator.validate(value[i], `${name}[${i+1}]`).toUnion();
 			if (validation.failed) {
 				return Result.Failure(validation.value);
 			} else {
-				output = output.concat(validation.value)
+				output = output.appendElement(validation.value)
 			}
 		}
 

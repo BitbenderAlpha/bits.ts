@@ -15,7 +15,7 @@ export class TwitchApiUsersLoader {
 		Is.Named('TwitchUsersHttpClient Response Body',
 			Is.Json.String.Of(
 				Is.Object.Of({
-					data: Is.Array.Of(
+					data: Is.List.Of(
 						Is.Object.Of({
 							id: Is.String, 
 							login: Is.String,
