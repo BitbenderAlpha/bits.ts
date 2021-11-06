@@ -12,6 +12,20 @@ export class List<T> implements Iterable<T> {
 		return this.array.length;
 	}
 
+	public get entries(): Iterable<[NonNegativeInteger, T]> {
+		const array = this.array;
+		return {
+			* [Symbol.iterator]() {
+				for (let i = 0; i < array.length; i++) {
+					yield [
+						NonNegativeInteger.From(i).orDie(),
+						array[i] as T,
+					];
+				}
+			}
+		}
+	}
+
 	public get(index: NonNegativeInteger): Result<T,null> {
 		const maybeElement = this.array[index.value];
 		
