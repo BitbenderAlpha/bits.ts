@@ -1,14 +1,11 @@
 import { Ratio } from "../../Ratio/Ratio";
-import { RandomDistributionInterface } from "../Distribution/Interface";
+import { AbstractRandomDistribution } from "../Distribution/Abstract";
+import { RandomSourceInterface } from "./Interface";
 
-export class DefaultRandomSource implements RandomDistributionInterface<Ratio> {
+export class DefaultRandomSource extends AbstractRandomDistribution<Ratio> implements RandomSourceInterface {
 
 	public sample(): Ratio {
 		return Ratio.From(Math.random() || Number.EPSILON).orDie();
-	}
-
-	public * [Symbol.iterator]() {
-		while (true) yield this.sample();
 	}
 	
 }

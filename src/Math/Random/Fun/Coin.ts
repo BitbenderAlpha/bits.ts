@@ -1,26 +1,20 @@
-import { NonEmptyList } from "../../../Collection/List/NonEmpty";
+import { UniformBooleanRandomDistribution } from "../../..";
 import { PositiveInteger } from "../../Integer/Positive";
-import { Ratio } from "../../Ratio/Ratio";
-import { RandomDistributionInterface } from "../Distribution/Interface";
-import { DiscreteRandomDistribution } from "../Distribution/Uniform/Discrete";
 import { DefaultRandomSource } from "../Source/Default";
+import { RandomSourceInterface } from "../Source/Interface";
 
 export class RandomCoin {
-	private readonly distribution: DiscreteRandomDistribution<boolean>;
+	private readonly booleanDistribution: UniformBooleanRandomDistribution;
 
 	public constructor(
 		public readonly sideCount: PositiveInteger,
-		randomSource: RandomDistributionInterface<Ratio> = new DefaultRandomSource(),
+		source: RandomSourceInterface = new DefaultRandomSource(),
 	) {
-		this.distribution =
-			new DiscreteRandomDistribution(
-				NonEmptyList.From([false, true]).orDie(),
-				randomSource,
-			);
+		this.booleanDistribution = new UniformBooleanRandomDistribution(source);
 	}
 	
 	public flipBoolean(): boolean {
-		return this.distribution.sample();
+		return this.booleanDistribution.sample();
 	}
 
 	public flip(): 'heads' | 'tails' {

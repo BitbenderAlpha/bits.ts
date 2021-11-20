@@ -1,20 +1,19 @@
 import { Ratio } from "../../../Ratio/Ratio";
 import { DefaultRandomSource } from "../../Source/Default";
-import { RandomDistributionInterface } from "../Interface";
+import { RandomSourceInterface } from "../../Source/Interface";
+import { AbstractRandomDistribution } from "../Abstract";
 
-export class WeightedBooleanRandomDistribution implements RandomDistributionInterface<boolean> {
+export class WeightedBooleanRandomDistribution extends AbstractRandomDistribution<boolean> {
 
 	public constructor(
 		private readonly trueThreshold: Ratio,
-		private readonly randomSource: RandomDistributionInterface<Ratio> = new DefaultRandomSource()
-	) {}
+		private readonly source: RandomSourceInterface = new DefaultRandomSource()
+	) {
+		super();
+	}
 	
 	public sample(): boolean {
-		return this.randomSource.sample().gt(this.trueThreshold);
-	}
-
-	public * [Symbol.iterator]() {
-		while (true) yield this.sample();
+		return this.source.sample().gt(this.trueThreshold);
 	}
 
 }

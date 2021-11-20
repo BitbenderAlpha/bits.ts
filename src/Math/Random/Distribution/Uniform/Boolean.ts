@@ -1,18 +1,15 @@
-import { Ratio } from "../../../Ratio/Ratio";
-import { RandomDistributionInterface } from "../Interface";
 import { DefaultRandomSource } from "../../Source/Default";
+import { RandomSourceInterface } from "../../Source/Interface";
+import { AbstractRandomDistribution } from "../Abstract";
 
-export class UniformBooleanRandomDistribution implements RandomDistributionInterface<boolean> {
+export class UniformBooleanRandomDistribution extends AbstractRandomDistribution<boolean> {
 	public constructor(
-		private readonly randomSource: RandomDistributionInterface<Ratio> = new DefaultRandomSource(),
-	) {}
+		private readonly source: RandomSourceInterface = new DefaultRandomSource(),
+	) {
+		super();
+	}
 	
 	public sample(): boolean {
-		return Number(this.randomSource.sample()) > 0.5;
+		return Number(this.source.sample()) > 0.5;
 	}
-
-	public * [Symbol.iterator]() {
-		while (true) yield this.sample();
-	}
-
 }

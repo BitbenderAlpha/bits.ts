@@ -1,22 +1,21 @@
 import { Integer } from "../../Integer/Integer";
 import { PositiveInteger } from "../../Integer/Positive";
 import { IntegerRange } from "../../Range/Integer";
-import { Ratio } from "../../Ratio/Ratio";
-import { RandomDistributionInterface } from "../Distribution/Interface";
 import { IntegerRangeUniformRandomDistribution } from "../Distribution/Uniform/IntegerRange";
 import { DefaultRandomSource } from "../Source/Default";
+import { RandomSourceInterface } from "../Source/Interface";
 
 export class RandomDie {
 	private readonly distribution: IntegerRangeUniformRandomDistribution;
 
 	public constructor(
 		public readonly sideCount: PositiveInteger,
-		randomSource: RandomDistributionInterface<Ratio> = new DefaultRandomSource()
+		source: RandomSourceInterface = new DefaultRandomSource()
 	) {
 		this.distribution =
 			new IntegerRangeUniformRandomDistribution(
 				new IntegerRange(Integer.From(1).orDie(), sideCount),
-				randomSource,
+				source,
 			);
 	}
 

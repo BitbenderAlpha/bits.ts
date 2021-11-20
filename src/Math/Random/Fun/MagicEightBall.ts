@@ -1,10 +1,9 @@
 import { NonEmptyList } from "../../../Collection/List/NonEmpty";
-import { Ratio } from "../../Ratio/Ratio";
-import { RandomDistributionInterface } from "../Distribution/Interface";
 import { DiscreteRandomDistribution } from "../Distribution/Uniform/Discrete";
 import { DefaultRandomSource } from "../Source/Default";
+import { RandomSourceInterface } from "../Source/Interface";
 
-export class RandomEightBall {
+export class MagicEightBall {
 
 	public readonly responses =
 		NonEmptyList.From([
@@ -34,10 +33,9 @@ export class RandomEightBall {
 	private readonly distribution: DiscreteRandomDistribution<string>;
 
 	public constructor(
-		randomSoure: RandomDistributionInterface<Ratio> = new DefaultRandomSource(),
+		source: RandomSourceInterface = new DefaultRandomSource(),
 	) {
-		this.distribution =
-			new DiscreteRandomDistribution(this.responses, randomSoure);
+		this.distribution = new DiscreteRandomDistribution(this.responses, source);
 	}
 
 	public shake(): string {
