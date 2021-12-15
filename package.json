@@ -1,6 +1,6 @@
 {
   "name": "@bits.ts/all",
-  "version": "0.19.0",
+  "version": "0.20.0",
   "description": "kitchen sink",
   "main": "index.js",
   "types": "index.d.ts",
