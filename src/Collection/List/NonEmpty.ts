@@ -1,7 +1,5 @@
-import { NonNegativeInteger } from "../..";
+import { NonNegativeInteger, PositiveInteger } from "../..";
 import { Fault } from "../../Fault/Fault";
-import { Integer } from "../../Math/Integer/Integer";
-import { IntegerRange } from "../../Math/Range/Integer";
 import { Result } from "../../Result/Result";
 import { List } from "./List";
 
@@ -12,15 +10,8 @@ export class NonEmptyList<T> implements Iterable<T> {
 		public readonly tail: List<T> = List.Empty<T>(),
 	) {}
 
-	public get indexRange() {
-		return new IntegerRange(
-			Integer.From(0).orDie(),
-			Integer.From(this.tail.length).orDie(),
-		);
-	}
-
 	public get length() {
-		return 1 + this.tail.length;
+		return PositiveInteger.From(1 + this.tail.length).orDie();
 	}
 
 	public get(index: NonNegativeInteger) {

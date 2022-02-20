@@ -1,38 +1,11 @@
 import { Result } from "../../Result/Result";
+import { AbstractNumberable } from "../AbstractNumberable";
 
-export class Integer {
+export class Integer extends AbstractNumberable {
 
-	protected constructor(
-		public readonly value: number
-	) {}
-
-	public valueOf() {
-		return this.value;
-	}
-
-	public lt(n: Integer|number) {
-		return Number(this) < Number(n); 
-	}
-
-	public gt(n: Integer|number) {
-		return Number(this) > Number(n); 
-	}
-
-	public lte(n: Integer|number) {
-		return Number(this) <= Number(n); 
-	}
-
-	public gte(n: Integer|number) {
-		return Number(this) >= Number(n); 
-	}
-
-	public eq(n: unknown) {
-		return Number(this) === Number(n);
-	}
-
-	public neq(n: unknown) {
-		return Number(this) !== Number(n);
-	}
+	public static NegativeOne = Integer.From(-1).orDie();
+	public static Zero = Integer.From(0).orDie();
+	public static One = Integer.From(1).orDie();
 
 	public static From(value: unknown, name = 'Integer.From input') {
 		return (

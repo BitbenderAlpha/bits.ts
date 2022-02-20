@@ -35,3 +35,24 @@ test('Ratio.From(a/2^k), k < 15, a < 2^k', () => {
 		}
 	}
 });
+
+test('Ratio limits', () => {
+	expect(Ratio.Min.value).toBe(Number.EPSILON);
+	expect(Ratio.Max.value).toBe(1-Number.EPSILON);
+});
+
+test('Ratio.Clamp(number)', () => {
+	// Clamp to Min
+	expect(Ratio.Clamp(-Infinity).value).toBe(Ratio.Min.value);
+	expect(Ratio.Clamp(-2).value).toBe(Ratio.Min.value);
+	expect(Ratio.Clamp(-1).value).toBe(Ratio.Min.value);
+	expect(Ratio.Clamp(0).value).toBe(Ratio.Min.value);
+
+	// Clamp to Half
+	expect(Ratio.Clamp(Number.NaN).value).toBe(Ratio.Half.value);
+
+	// Clamp to Max
+	expect(Ratio.Clamp(+1).value).toBe(Ratio.Max.value);
+	expect(Ratio.Clamp(+2).value).toBe(Ratio.Max.value);
+	expect(Ratio.Clamp(+Infinity).value).toBe(Ratio.Max.value);
+});

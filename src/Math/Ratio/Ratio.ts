@@ -1,49 +1,37 @@
-import { NonNegativeInteger } from "../Integer/NonNegative";
 import { PositiveInteger } from "../Integer/Positive";
 import { Result } from "../../Result/Result";
+import { AbstractNumberable } from "../AbstractNumberable";
 
 /**
  * Represents a:b = a / (a + b) ∈ (0,1); a,b ∈ ℤ⁺
  */
-export class Ratio {
+export class Ratio extends AbstractNumberable {
 
 	public constructor(
 		public readonly a: PositiveInteger,
 		public readonly b: PositiveInteger,
-	) {}
-
-	public valueOf() {
-		return this.a.value / (this.a.value + this.b.value)
+	) {
+		super(Number(a) / (Number(a) + Number(b)));
 	}
 
-	public get value() {
-		return this.valueOf();
-	}
+	public static readonly Min =
+		new Ratio(
+			PositiveInteger.One,
+			PositiveInteger.From((Number.MAX_SAFE_INTEGER-1)/2).orDie(),
+		);
 
-	// todo "Numeric" base class?
-	public lt(n: any) {
-		return Number(this) < Number(n); 
-	}
+	public static readonly Half =
+		new Ratio(
+			PositiveInteger.One,
+			PositiveInteger.One,
+		);
 
-	public gt(n: any) {
-		return Number(this) > Number(n); 
-	}
+	public static readonly Max =
+		new Ratio(
+			PositiveInteger.From((Number.MAX_SAFE_INTEGER-1)/2).orDie(),
+			PositiveInteger.One,
+		);
 
-	public lte(n: any) {
-		return Number(this) <= Number(n); 
-	}
-
-	public gte(n: any) {
-		return Number(this) >= Number(n); 
-	}
-
-	public eq(n: any) {
-		return Number(this) === Number(n);
-	}
-
-	public neq(n: any) {
-		return Number(this) !== Number(n);
-	}
 
 	public static From(value: unknown, name: string = 'Ratio.From input'): Result<Ratio, string> {
 
@@ -51,12 +39,12 @@ export class Ratio {
 			return Result.Failure(`${name} must be number`);
 		}
 
-		if (value > 1) {
-			return Result.Failure(`${name} must be less than 1`);
+		if (Ratio.Max.lt(value)) {
+			return Result.Failure(`${name} must be less than ${Ratio.Max}`);
 		}
 
-		if (value < 0) {
-			return Result.Failure(`${name} must be greater than 0`);
+		if (Ratio.Min.gt(value)) {
+			return Result.Failure(`${name} must be greater than ${Ratio.Min}`);
 		}
 		
 		/**
@@ -86,9 +74,17 @@ export class Ratio {
 		while (!Number.isInteger(a) || !Number.isInteger(b)) { a*=2; b*=2 }
 		return Result.Success(
 			new Ratio(
-				NonNegativeInteger.From(a).orDie(),
-				NonNegativeInteger.From(b).orDie(),
+				PositiveInteger.From(a).orDie(),
+				PositiveInteger.From(b).orDie(),
 			),
 		);
 	} 
+
+
+	public static Clamp(value: number) {
+		if (isNaN(Number(value))) return Ratio.Half;
+		if (Ratio.Max.lt(value)) return Ratio.Max;
+		if (Ratio.Min.gt(value)) return Ratio.Min;
+		return Ratio.From(value);
+	}
 }

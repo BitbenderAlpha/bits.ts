@@ -1,12 +1,14 @@
+import { NonNegativeInteger } from "../../../..";
 import { NonEmptyList } from "../../../../Collection/List/NonEmpty";
 import { DefaultRandomSource } from "../../Source/Default";
 import { RandomSourceInterface } from "../../Source/Interface";
 import { AbstractRandomDistribution } from "../Abstract";
-import { IntegerRangeUniformRandomDistribution } from "./IntegerRange";
+import { RandomDistributionInterface } from "../Interface";
+import { UniformRandomIntegerDistribution } from "./Integer";
 
 export class DiscreteRandomDistribution<T> extends AbstractRandomDistribution<T> {
 
-	private readonly indexDistribution: IntegerRangeUniformRandomDistribution;
+	private readonly indexDistribution: RandomDistributionInterface<NonNegativeInteger>;
 
 	public constructor(
 		private readonly values: NonEmptyList<T>,
@@ -15,8 +17,10 @@ export class DiscreteRandomDistribution<T> extends AbstractRandomDistribution<T>
 		super();
 
 		this.indexDistribution =
-			new IntegerRangeUniformRandomDistribution(
-				this.values.indexRange,
+			new UniformRandomIntegerDistribution<NonNegativeInteger>(
+				NonNegativeInteger.Zero,
+				NonNegativeInteger.From(values.length.value - 1).orDie(),
+				(x: number) => NonNegativeInteger.From(x).orDie(),
 				source,
 			);
 	}
