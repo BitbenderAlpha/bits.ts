@@ -80,11 +80,10 @@ export class Ratio extends AbstractNumberable {
 		);
 	} 
 
-
 	public static Clamp(value: number) {
 		if (isNaN(Number(value))) return Ratio.Half;
 		if (Ratio.Max.lt(value)) return Ratio.Max;
 		if (Ratio.Min.gt(value)) return Ratio.Min;
-		return Ratio.From(value);
+		return Ratio.From(value).orDie();
 	}
 }

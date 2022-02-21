@@ -55,4 +55,8 @@ test('Ratio.Clamp(number)', () => {
 	expect(Ratio.Clamp(+1).value).toBe(Ratio.Max.value);
 	expect(Ratio.Clamp(+2).value).toBe(Ratio.Max.value);
 	expect(Ratio.Clamp(+Infinity).value).toBe(Ratio.Max.value);
+
+
+	// No Clamp
+	expect(Ratio.Clamp(0.5).value).toBe(0.5);
 });
