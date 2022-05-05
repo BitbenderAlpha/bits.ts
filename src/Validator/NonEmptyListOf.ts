@@ -32,7 +32,7 @@ export class NonEmptyListOfValidator<T> extends AbstractValidator<NonEmptyList<T
 		let output = new NonEmptyList(headValidation.value);
 
 		for (let i = 0; i < tail.length; i++) {
-			const validation = this.elementValidator.validate(value[i], `${name}[${i+1}]`).toUnion();
+			const validation = this.elementValidator.validate(tail[i], `${name}[${i+1}]`).toUnion();
 			if (validation.failed) {
 				return Result.Failure(validation.value);
 			} else {
